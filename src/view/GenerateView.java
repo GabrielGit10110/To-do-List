@@ -75,31 +75,33 @@ public class GenerateView {
 	}
 
 
-	public static void createButtons(JPanel buttonsPanel, JFrame frame, int i) {
-		// Create a panel with a button
-		List<JCheckBox> check = new ArrayList<>();
-		 
-		// Instantiate all the new checks
-		JCheckBox newCheckBox = new JCheckBox();
+	public static void createButtons(JPanel buttonsPanel, List<JCheckBox> check, int i) {
+		// Panel for grouping all the checks on the left of the screen dynamically
+	    JPanel checkPanel = new JPanel();
+	    checkPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // Align the checks on the left 
 
-		check.add(newCheckBox);
+	    // Create a new check with a 15 tasks limit
+	    JCheckBox newCheckBox = new JCheckBox("" + i);
+	    check.add(newCheckBox);
+	    newCheckBox.setPreferredSize(new Dimension(20, 20));
 
-		newCheckBox.setPreferredSize(new Dimension(20, 20));
-		 
-		// Add action to the button
-		newCheckBox.addActionListener(new ActionListener() {
-			 @Override
-			 public void actionPerformed(ActionEvent e) {
-				 JOptionPane.showMessageDialog(frame, "Button Clicked!");
-			 }
-		 });
+	    newCheckBox.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            System.out.println("Item " + newCheckBox.getText() + " clicado!");
+	        }
+	    });
 
-		// Add the buttons at the end of the loop
-		buttonsPanel.add(newCheckBox);
-		buttonsPanel.add(Box.createVerticalStrut(10));
-			 
+	    // Add the CheckBox
+	    checkPanel.add(newCheckBox);
+
+	    buttonsPanel.add(checkPanel);
+	    buttonsPanel.add(Box.createVerticalStrut(10));
+
+	    // Refresh the main panel
+	    buttonsPanel.revalidate();
+	    buttonsPanel.repaint();
 	}
-
 	public static void startWindow() {
 		 // Create new frame and define title
 		 JFrame frame = new JFrame("To do List");
@@ -112,17 +114,22 @@ public class GenerateView {
 		 buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.Y_AXIS));
 		 
 		 
-		 JButton addNewTask = new JButton();
+		 JButton addNewTask = new JButton("Adicionar Task");
 		 southPanel.add(addNewTask);
+
+		 // Create a panel with a button
+		 List<JCheckBox> check = new ArrayList<>();
+
 		 
 		 addNewTask.addActionListener(new ActionListener() {
 				 int count = 0;
+
 				 @Override
 				 public void actionPerformed(ActionEvent e) {
 					 System.out.println("Add new Task");
-					 if (count < 15) {
+					 if (count < 12) {
 						 count += 1;
-						 createButtons(buttonsPanel, frame, count);
+						 createButtons(buttonsPanel, check, count);
 						 System.out.println(count);
 					 } else if(count == 15) {
 							 System.out.println("Limite atingido");
