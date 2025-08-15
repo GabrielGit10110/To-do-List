@@ -3,6 +3,8 @@ package controller;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.*;
@@ -27,15 +29,18 @@ public class FramesLabels {
 	}
 
 	/**
-	 * Takes care of the west side of the frame, used to put the name of the day. <br>
-	 * Needs a text panel from java Swing JPanel and the title of the day.
+	 * Takes care of the west side of the frame, used to put the current date. <br>
+	 * Needs a text panel from java Swing JPanel.
 	 * @param textPanel
-	 * @param title
 	 */
-	public void createWestLabels(JPanel textPanel, String title) {
+	public void createDateLabels(JPanel textPanel) {
+		String pattern = "dd/MM/yyyy"; // 01/feb/2025.
+		SimpleDateFormat simpleFormat = new SimpleDateFormat(pattern);
+		String currentDate = simpleFormat.format(new Date());
+
 		// Create another panel with text
-		JLabel name = new JLabel(title);
-		textPanel.add(name);
+		JLabel date = new JLabel(currentDate);
+		textPanel.add(date);
 
 	}
 
@@ -51,7 +56,7 @@ public class FramesLabels {
 		JPanel checkPanel = new JPanel();
 		checkPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // Align the checks on the left
 
-		// Create a new check with a 15 tasks limit
+		// Create a new check with a 12 tasks limit
 		JCheckBox newCheckBox = new JCheckBox("" + i);
 		check.add(newCheckBox);
 		newCheckBox.setPreferredSize(new Dimension(20, 20));
@@ -72,6 +77,25 @@ public class FramesLabels {
 		// Refresh the main panel
 		buttonsPanel.revalidate();
 		buttonsPanel.repaint();
+	}
+	
+	public void createTextField(JPanel textPanel, List<JTextField> write, int i) {
+		JPanel writePanel = new JPanel();
+		writePanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // Align the text fields on the left
+		
+		JTextField writeOn = new JTextField("" + i);
+		writeOn.setPreferredSize(new Dimension(700, 26));
+
+		write.add(writeOn);
+		writePanel.add(writeOn);
+
+		textPanel.add(writePanel);
+		textPanel.add(Box.createVerticalStrut(10));
+		
+		// Refresh the main panel
+		textPanel.revalidate();
+		textPanel.repaint();
+
 	}
 
 }
